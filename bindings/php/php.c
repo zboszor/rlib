@@ -143,7 +143,15 @@ ZEND_RSRC_DTOR_FUNC(_close_rlib_link)
 	efree(rip);
 }
 
+GString *error_data = NULL;
+
+void compile_error_capture(rlib *r, const gchar *msg) {
+	g_string_append_printf(error_data, "%s\n", msg);
+}
+
 PHP_MINIT_FUNCTION(rlib) {
+	error_data = g_string_new("");
+	rlogit_setmessagewriter(compile_error_capture);
 	le_link = zend_register_list_destructors_ex(_close_rlib_link, NULL, LE_RLIB_NAME, module_number);
 	return SUCCESS;
 };
@@ -782,12 +790,17 @@ ZEND_FUNCTION(rlib_spool) {
 		RETURN_FALSE;
 #endif
 
-	if(rip->r != NULL)
-		rlib_spool(rip->r);
-	else {
+	if(rip->r != NULL) {
+		if (rip->r->did_execute)
+			rlib_spool(rip->r);
+		else if (error_data->len)
+			ENVIRONMENT(rip->r)->rlib_write_output(error_data->str, error_data->len);
+	} else {
 		zend_error(E_ERROR, "Unable to run report with requested data");
 	}
 	
+	error_data->str[0] = 0;
+	error_data->len = 0;
 }
 
 ZEND_FUNCTION(rlib_free) {
@@ -998,12 +1011,6 @@ ZEND_FUNCTION(rlib_set_output_parameter) {
 	rlib_set_output_parameter(rip->r, d1, d2);
 }
 
-GString *error_data;
-
-void compile_error_capture(rlib *r, const gchar *msg) {
-	error_data = g_string_append(error_data, msg);
-}
-
 ZEND_FUNCTION(rlib_compile_infix) {
 	z_str_len_t size_of_string;
 	char *infix;
@@ -1011,13 +1018,10 @@ ZEND_FUNCTION(rlib_compile_infix) {
 	struct rlib_value value;
 	char *ret_str;
 
-	error_data = g_string_new("");
-
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &infix, &size_of_string) == FAILURE) {
 		return;
 	}
 
-	rlogit_setmessagewriter(compile_error_capture);
 	code = rlib_infix_to_pcode(NULL, NULL, NULL, infix, -1, FALSE);
 	if(code != NULL) {
 		rlib_execute_pcode(NULL, &value, code, NULL);
@@ -1026,7 +1030,6 @@ ZEND_FUNCTION(rlib_compile_infix) {
 	}
 
 	ret_str = estrdup(error_data->str);
-	g_string_free(error_data, TRUE);
 #if PHP_MAJOR_VERSION < 7
 	RETURN_STRING(ret_str, TRUE);
 #else
