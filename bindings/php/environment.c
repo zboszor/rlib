@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2003-2017 SICOM Systems, INC.
+ *  Copyright (C) 2003-2022 SICOM Systems, INC.
  *
  *  Authors: Bob Doan <bdoan@sicompos.com>
  *  Updated for PHP 7: Zoltán Böszörményi <zboszormenyi@sicom.com>
@@ -23,6 +23,12 @@
 
 #include <stdio.h>
 #include "rlib.h"
+
+#if PHP_MAJOR_VERSION >= 8
+#define TSRMLS_DC
+#define TSRMLS_CC
+#define TSRMLS_FETCH()
+#endif
 
 static GString *rlib_php_dump_memory_variables(void) {
 	GString *dump;

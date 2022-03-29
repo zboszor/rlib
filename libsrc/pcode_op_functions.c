@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2003-2017 SICOM Systems, INC.
+ *  Copyright (C) 2003-2022 SICOM Systems, INC.
  *
  *  Authors: Bob Doan <bdoan@sicompos.com>
  *
@@ -1078,7 +1078,7 @@ gboolean rlib_pcode_operator_iif(rlib *r, struct rlib_pcode *code, struct rlib_v
 		struct rlib_pcode_if *rif = RLIB_VALUE_GET_AS_IIF(v1);
 		struct rlib_value *result;
 
-		if(rif->false == NULL || rif->true == NULL) {
+		if(rif->false_value == NULL || rif->true_value == NULL) {
 			r_error(r, "IIF STATEMENT IS INVALID [%s] @ %d\n", code->infix_string, code->line_number);
 		} else {
 			execute_pcode(r, rif->evaulation, vs, this_field_value, FALSE);
@@ -1088,22 +1088,22 @@ gboolean rlib_pcode_operator_iif(rlib *r, struct rlib_pcode *code, struct rlib_v
 				if(RLIB_VALUE_GET_AS_NUMBER(result) == 0) {
 					rlib_value_free(result);
 					rlib_value_free(v1);
-					thisresult = execute_pcode(r, rif->false, vs, this_field_value, FALSE);
+					thisresult = execute_pcode(r, rif->false_value, vs, this_field_value, FALSE);
 
 				} else {
 					rlib_value_free(result);
 					rlib_value_free(v1);
-					thisresult = execute_pcode(r, rif->true, vs, this_field_value, FALSE);
+					thisresult = execute_pcode(r, rif->true_value, vs, this_field_value, FALSE);
 				}
 			} else if(RLIB_VALUE_IS_STRING(result)) {
 				if(RLIB_VALUE_GET_AS_STRING(result) == NULL) {
 					rlib_value_free(result);
 					rlib_value_free(v1);
-					thisresult = execute_pcode(r, rif->false, vs, this_field_value, FALSE);
+					thisresult = execute_pcode(r, rif->false_value, vs, this_field_value, FALSE);
 				} else {
 					rlib_value_free(result);
 					rlib_value_free(v1);
-					thisresult = execute_pcode(r, rif->true, vs, this_field_value, FALSE);
+					thisresult = execute_pcode(r, rif->true_value, vs, this_field_value, FALSE);
 				}
 			} else {
 				rlib_value_free(result);
