@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2003-2006 SICOM Systems, INC.
+ *  Copyright (C) 2003-2022 SICOM Systems, INC.
  *
  *  Authors: Bob Doan <bdoan@sicompos.com>
  *
@@ -137,8 +137,8 @@ struct rlib_pcode_operator {
 
 struct rlib_pcode_if {
 	struct rlib_pcode *evaulation;
-	struct rlib_pcode *true;
-	struct rlib_pcode *false;
+	struct rlib_pcode *true_value;
+	struct rlib_pcode *false_value;
 	char *str_ptr;
 };
 

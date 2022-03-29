@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2003-2017 SICOM Systems, INC.
+ *  Copyright (C) 2003-2022 SICOM Systems, INC.
  *
  *  Authors: Bob Doan <bdoan@sicompos.com>
  *  Updated for PHP 7: Zoltán Böszörményi <zboszormenyi@sicom.com>
@@ -27,12 +27,16 @@
 #include "pcode.h"
 #include "rlib_php.h"
 
+#if PHP_MAJOR_VERSION >= 8
+#define TSRMLS_DC
+#define TSRMLS_CC
+#define TSRMLS_FETCH()
+#endif
 
 /*
-	here we define the PHP interface to rlib.  always assume no access to this source when making methods
-	If you want to hack this read the "Extending PHP" section of the PHP Manual from php.net
-*/
-
+ * we define the PHP interface to rlib.  always assume no access to this source when making methods
+ * If you want to hack this read the "Extending PHP" section of the PHP Manual from php.net
+ */
 
 /* declaration of functions to be exported */
 ZEND_FUNCTION(rlib_init);
@@ -73,48 +77,240 @@ ZEND_FUNCTION(rlib_add_search_path);
 
 PHP_MINIT_FUNCTION(rlib);
 
-
 /*WRD: It appears we are thread safe here.. not sure yet*/
 static int le_link;
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_init, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_add_datasource_mysql, 0, 0, 6)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, host)
+	ZEND_ARG_INFO(0, user)
+	ZEND_ARG_INFO(0, password)
+	ZEND_ARG_INFO(0, dbame)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_add_datasource_mysql_from_group, 0, 0, 3)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, group)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_add_datasource_postgres, 0, 0, 3)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, connstr)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_add_datasource_odbc, 0, 0, 5)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, dsn)
+	ZEND_ARG_INFO(0, user)
+	ZEND_ARG_INFO(0, password)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_add_datasource_array, 0, 0, 2)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_add_datasource_xml, 0, 0, 2)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_add_datasource_csv, 0, 0, 2)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_add_query_as, 0, 0, 4)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, sql)
+	ZEND_ARG_INFO(0, query_name)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_graph_add_bg_region, 0, 0, 6)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, graph)
+	ZEND_ARG_INFO(0, region)
+	ZEND_ARG_INFO(0, color)
+	ZEND_ARG_INFO(0, start)
+	ZEND_ARG_INFO(0, end)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_graph_clear_bg_region, 0, 0, 2)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, graph)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_graph_set_x_minor_tick, 0, 0, 3)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, graph)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_graph_set_x_minor_tick_by_location, 0, 0, 3)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, graph)
+	ZEND_ARG_INFO(0, location)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_add_resultset_follower, 0, 0, 3)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, leader)
+	ZEND_ARG_INFO(0, follower)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_add_resultset_follower_n_to_1, 0, 0, 5)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, leader)
+	ZEND_ARG_INFO(0, leader_field)
+	ZEND_ARG_INFO(0, follower)
+	ZEND_ARG_INFO(0, follower_field)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_add_report, 0, 0, 2)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_add_report_from_buffer, 0, 0, 2)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_query_refresh, 0, 0, 1)
+	ZEND_ARG_INFO(0, r)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_signal_connect, 0, 0, 3)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, signal)
+	ZEND_ARG_INFO(0, func)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_add_function, 0, 0, 4)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, func)
+	ZEND_ARG_INFO(0, params)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_set_output_format_from_text, 0, 0, 2)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_execute, 0, 0, 1)
+	ZEND_ARG_INFO(0, r)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_spool, 0, 0, 1)
+	ZEND_ARG_INFO(0, r)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_free, 0, 0, 1)
+	ZEND_ARG_INFO(0, r)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_get_content_type, 0, 0, 1)
+	ZEND_ARG_INFO(0, r)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_add_parameter, 0, 0, 3)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_set_locale, 0, 0, 2)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, locale)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_bindtextdomain, 0, 0, 3)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, domainname)
+	ZEND_ARG_INFO(0, dirname)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_set_radix_character, 0, 0, 2)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, radix)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_version, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_set_output_parameter, 0, 0, 3)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, param)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_set_datasource_encoding, 0, 0, 3)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, encoding)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_set_output_encoding, 0, 0, 2)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, encoding)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_compile_infix, 0, 0, 1)
+	ZEND_ARG_INFO(0, infix)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_rlib_add_search_path, 0, 0, 2)
+	ZEND_ARG_INFO(0, r)
+	ZEND_ARG_INFO(0, path)
+ZEND_END_ARG_INFO()
 
 /* compiled function list so Zend knows what's in this module */
 zend_function_entry rlib_functions[] =
 {
-	ZEND_FE(rlib_init, NULL)
-	ZEND_FE(rlib_add_datasource_mysql, NULL)
-	ZEND_FE(rlib_add_datasource_mysql_from_group, NULL)
-	ZEND_FE(rlib_add_datasource_postgres, NULL)
-	ZEND_FE(rlib_add_datasource_odbc, NULL)
-	ZEND_FE(rlib_add_datasource_array, NULL)
-	ZEND_FE(rlib_add_datasource_xml, NULL)
-	ZEND_FE(rlib_add_datasource_csv, NULL)
-	ZEND_FE(rlib_add_query_as, NULL)
-	ZEND_FE(rlib_graph_add_bg_region, NULL)
-	ZEND_FE(rlib_graph_clear_bg_region, NULL)
-	ZEND_FE(rlib_graph_set_x_minor_tick, NULL)
-	ZEND_FE(rlib_graph_set_x_minor_tick_by_location, NULL)
-	ZEND_FE(rlib_add_resultset_follower, NULL)
-	ZEND_FE(rlib_add_resultset_follower_n_to_1, NULL)
-	ZEND_FE(rlib_add_report, NULL)
-	ZEND_FE(rlib_add_report_from_buffer, NULL)
-	ZEND_FE(rlib_query_refresh, NULL)
-	ZEND_FE(rlib_signal_connect, NULL)
-	ZEND_FE(rlib_add_function, NULL)
-	ZEND_FE(rlib_set_output_format_from_text, NULL)
-	ZEND_FE(rlib_execute, NULL)
-	ZEND_FE(rlib_spool, NULL)
-	ZEND_FE(rlib_free, NULL)
-	ZEND_FE(rlib_get_content_type, NULL)
-	ZEND_FE(rlib_add_parameter, NULL)
-	ZEND_FE(rlib_set_locale, NULL)
-	ZEND_FE(rlib_bindtextdomain, NULL)
-	ZEND_FE(rlib_set_radix_character, NULL)
-	ZEND_FE(rlib_version, NULL)
-	ZEND_FE(rlib_set_output_parameter, NULL)
-	ZEND_FE(rlib_set_datasource_encoding, NULL)
-	ZEND_FE(rlib_set_output_encoding, NULL)
-	ZEND_FE(rlib_compile_infix, NULL)
-	ZEND_FE(rlib_add_search_path, NULL)
+	ZEND_FE(rlib_init, arginfo_rlib_init)
+	ZEND_FE(rlib_add_datasource_mysql, arginfo_rlib_add_datasource_mysql)
+	ZEND_FE(rlib_add_datasource_mysql_from_group, arginfo_rlib_add_datasource_mysql_from_group)
+	ZEND_FE(rlib_add_datasource_postgres, arginfo_rlib_add_datasource_postgres)
+	ZEND_FE(rlib_add_datasource_odbc, arginfo_rlib_add_datasource_odbc)
+	ZEND_FE(rlib_add_datasource_array, arginfo_rlib_add_datasource_array)
+	ZEND_FE(rlib_add_datasource_xml, arginfo_rlib_add_datasource_xml)
+	ZEND_FE(rlib_add_datasource_csv, arginfo_rlib_add_datasource_csv)
+	ZEND_FE(rlib_add_query_as, arginfo_rlib_add_query_as)
+	ZEND_FE(rlib_graph_add_bg_region, arginfo_rlib_graph_add_bg_region)
+	ZEND_FE(rlib_graph_clear_bg_region, arginfo_rlib_graph_clear_bg_region)
+	ZEND_FE(rlib_graph_set_x_minor_tick, arginfo_rlib_graph_set_x_minor_tick)
+	ZEND_FE(rlib_graph_set_x_minor_tick_by_location, arginfo_rlib_graph_set_x_minor_tick_by_location)
+	ZEND_FE(rlib_add_resultset_follower, arginfo_rlib_add_resultset_follower)
+	ZEND_FE(rlib_add_resultset_follower_n_to_1, arginfo_rlib_add_resultset_follower_n_to_1)
+	ZEND_FE(rlib_add_report, arginfo_rlib_add_report)
+	ZEND_FE(rlib_add_report_from_buffer, arginfo_rlib_add_report_from_buffer)
+	ZEND_FE(rlib_query_refresh, arginfo_rlib_query_refresh)
+	ZEND_FE(rlib_signal_connect, arginfo_rlib_signal_connect)
+	ZEND_FE(rlib_add_function, arginfo_rlib_add_function)
+	ZEND_FE(rlib_set_output_format_from_text, arginfo_rlib_set_output_format_from_text)
+	ZEND_FE(rlib_execute, arginfo_rlib_execute)
+	ZEND_FE(rlib_spool, arginfo_rlib_spool)
+	ZEND_FE(rlib_free, arginfo_rlib_free)
+	ZEND_FE(rlib_get_content_type, arginfo_rlib_get_content_type)
+	ZEND_FE(rlib_add_parameter, arginfo_rlib_add_parameter)
+	ZEND_FE(rlib_set_locale, arginfo_rlib_set_locale)
+	ZEND_FE(rlib_bindtextdomain, arginfo_rlib_bindtextdomain)
+	ZEND_FE(rlib_set_radix_character, arginfo_rlib_set_radix_character)
+	ZEND_FE(rlib_version, arginfo_rlib_version)
+	ZEND_FE(rlib_set_output_parameter, arginfo_rlib_set_output_parameter)
+	ZEND_FE(rlib_set_datasource_encoding, arginfo_rlib_set_datasource_encoding)
+	ZEND_FE(rlib_set_output_encoding, arginfo_rlib_set_output_encoding)
+	ZEND_FE(rlib_compile_infix, arginfo_rlib_compile_infix)
+	ZEND_FE(rlib_add_search_path, arginfo_rlib_add_search_path)
 	{ .fname = NULL }
 };
 
@@ -359,6 +555,7 @@ ZEND_FUNCTION(rlib_add_datasource_csv) {
 	result = rlib_add_datasource_csv(rip->r, estrdup(datasource_name));
 	RETURN_LONG(result);
 }
+
 ZEND_FUNCTION(rlib_add_query_as) {
 	zval *z_rip = NULL;
 	z_str_len_t whatever;
@@ -583,9 +780,15 @@ gboolean default_callback(rlib *r, gpointer data) {
 
 	TSRMLS_FETCH();
 
-	if(call_user_function_ex(CG(function_table), NULL, z_function_name, &retval, 0, NULL, 0, NULL TSRMLS_CC) == FAILURE) {
+#if PHP_MAJOR_VERSION >= 8
+	if (call_user_function(CG(function_table), NULL, z_function_name, &retval, 0, NULL) == FAILURE) {
 	   return FALSE;
 	}
+#else
+	if (call_user_function_ex(CG(function_table), NULL, z_function_name, &retval, 0, NULL, 0, NULL TSRMLS_CC) == FAILURE) {
+	   return FALSE;
+	}
+#endif
 	
 	return TRUE;
 }
@@ -676,7 +879,11 @@ gboolean default_function(rlib *r, struct rlib_pcode * code, struct rlib_value_s
 	if(call_user_function_ex(CG(function_table), NULL, b->z_function_name, &retval, b->params, params, 0, NULL TSRMLS_CC) == FAILURE) {
 #else
 	retval = &value;
+# if PHP_MAJOR_VERSION >= 8
+	if (call_user_function(CG(function_table), NULL, b->z_function_name, &value, b->params, params) == FAILURE) {
+# else
 	if (call_user_function_ex(CG(function_table), NULL, b->z_function_name, &value, b->params, params, 0, NULL TSRMLS_CC) == FAILURE) {
+# endif
 #endif
 	   return FALSE;
 	}
@@ -937,7 +1144,6 @@ ZEND_FUNCTION(rlib_set_radix_character) {
 	if (whatever > 0)	
 		rlib_set_radix_character(rip->r, radix[0]);
 }
-
 
 ZEND_FUNCTION(rlib_version) {
 	const gchar *ver = rlib_version();

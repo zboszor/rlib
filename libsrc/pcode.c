@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2003-2017 SICOM Systems, INC.
+ *  Copyright (C) 2003-2022 SICOM Systems, INC.
  *
  *  Authors: Bob Doan <bdoan@sicompos.com>
  *
@@ -160,8 +160,8 @@ void rlib_pcode_free(struct rlib_pcode *code) {
 				{
 					struct rlib_pcode_if *rpif = o->value;
 					rlib_pcode_free(rpif->evaulation);
-					rlib_pcode_free(rpif->true);
-					rlib_pcode_free(rpif->false);
+					rlib_pcode_free(rpif->true_value);
+					rlib_pcode_free(rpif->false_value);
 					g_free(rpif);
 					break;
 				}
@@ -447,9 +447,9 @@ void rlib_pcode_dump(rlib *r, struct rlib_pcode *p, gint offset) {
 				rlogit(r, "*IFF EXPRESSION EVAULATION:\n");
 				rlib_pcode_dump(r, rpi->evaulation, offset+1);
 				rlogit(r, "*IFF EXPRESSION TRUE:\n");
-				rlib_pcode_dump(r, rpi->true, offset+1);
+				rlib_pcode_dump(r, rpi->true_value, offset+1);
 				rlogit(r, "*IFF EXPRESSION FALSE:\n");
-				rlib_pcode_dump(r, rpi->false, offset+1);
+				rlib_pcode_dump(r, rpi->false_value, offset+1);
 				rlogit(r, "*IFF DONE\n");
 
 			}
@@ -661,7 +661,7 @@ struct rlib_pcode * rlib_infix_to_pcode(rlib *r, struct rlib_part *part, struct 
 					gint pcount=1;
 					gint ccount=0;
 					gchar *save_ptr, *iif, *save_iif;
-					gchar *evaulation, *true=NULL, *false=NULL;
+					gchar *evaulation, *true_value=NULL, *false_value=NULL;
 					struct rlib_pcode_if *rpif;
 					struct rlib_pcode_operand *o;
 					gchar in_a_string_in_a_iif = FALSE;
@@ -700,17 +700,17 @@ struct rlib_pcode * rlib_infix_to_pcode(rlib *r, struct rlib_part *part, struct 
 						if (*iif == ',' && !in_a_string_in_a_iif) {
 							*iif='\0';
 							if(ccount == 0)
-								true = iif + 1;
+								true_value = iif + 1;
 							else if(ccount == 1)
-								false = iif + 1;
+								false_value = iif + 1;
 							ccount++;
 						}
 						iif++;
 					}
 					rpif = g_malloc(sizeof(struct rlib_pcode_if));
 					rpif->evaulation = rlib_infix_to_pcode(r, part, report, evaulation, line_number, look_at_metadata);
-					rpif->true = rlib_infix_to_pcode(r, part, report, true, line_number, look_at_metadata);
-					rpif->false = rlib_infix_to_pcode(r, part, report, false, line_number, look_at_metadata);
+					rpif->true_value = rlib_infix_to_pcode(r, part, report, true_value, line_number, look_at_metadata);
+					rpif->false_value = rlib_infix_to_pcode(r, part, report, false_value, line_number, look_at_metadata);
 					rpif->str_ptr = iif;
 					smart_add_pcode(pcodes, &os, op);
 					o = g_malloc(sizeof(struct rlib_pcode_operand));
