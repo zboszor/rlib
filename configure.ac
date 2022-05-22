@@ -338,17 +338,21 @@ GD_LIBS=""
 GD_LINK=""
 GD_LDFLAGS=""
 if test x$enable_gd = xyes; then
-	AC_PATH_PROG(GD_CONFIG, gdlib-config, no)
-	if test "x$GD_CONFIG" = "xno" ; then
-		enable_gd=no
-		echo "*** WARNING: GD NOT FOUND IN PATH.  RLIB WILL NOT BE COMPILED WITH SUPPORT FOR IT"
-	else
+	PKG_CHECK_MODULES(GD, gdlib,[
 		AC_DEFINE(HAVE_GD,1,[Build with GD support])
-		GD_CFLAGS=`"$GD_CONFIG" --includes`
-		GD_LIBS=`"$GD_CONFIG" --ldflags`
-		GD_LINK="-lgd"
-		GD_LDFLAGS=`"$GD_CONFIG" --libs`
-	fi
+	], [
+		AC_PATH_PROG(GD_CONFIG, gdlib-config, no)
+		if test "x$GD_CONFIG" = "xno" ; then
+			enable_gd=no
+			echo "*** WARNING: GD NOT FOUND IN PATH.  RLIB WILL NOT BE COMPILED WITH SUPPORT FOR IT"
+		else
+			AC_DEFINE(HAVE_GD,1,[Build with GD support])
+			GD_CFLAGS=`"$GD_CONFIG" --includes`
+			GD_LIBS=`"$GD_CONFIG" --ldflags`
+			GD_LINK="-lgd"
+			GD_LDFLAGS=`"$GD_CONFIG" --libs`
+		fi
+	])
 fi
 AC_SUBST(GD_CFLAGS)
 AC_SUBST(GD_LIBS)
@@ -530,7 +534,7 @@ dnl -D_GNU_SOURCE is needed.
 dnl For llabs(), -D_ISOC99_SOURCE is enough,
 dnl but e.g. strcasecmp is a GNU extension.
 
-CFLAGS="-D_GNU_SOURCE -Wall -Wchar-subscripts -Werror $CFLAGS"
+CFLAGS="-D_GNU_SOURCE -Wall -Wchar-subscripts $CFLAGS"
 
 RLIB_CFLAGS="$LIBXML_CFLAGS $LIBGLIB_CFLAGS $LIBGMODULE_CFLAGS $MYSQL_CFLAGS $POSTGRES_CFLAGS $ODBC_CFLAGS $GD_CFLAGS $NO_CYGWIN"
 RLIB_LIBS="$LIBXML_LIBS $LIBGLIB_LIBS $LIBGMODULE_LIBS $ICONVLIBS $GD_LDFLAGS $GD_LIBS $GD_LINK "
