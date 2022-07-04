@@ -422,7 +422,7 @@ static void rlib_advance_vertical_position(rlib *r, gfloat *rlib_position, struc
 
 static gint rlib_layout_execute_pcodes_for_line(rlib *r, struct rlib_part *part, struct rlib_report *report, struct rlib_report_lines *rl, struct rlib_line_extra_data *extra_data, gint *delayed) {
 	gint i=0;
-	gchar *text;
+	gchar *text = NULL;
 	gint use_font_point, tmp_int;
 	struct rlib_report_field *rf;
 	struct rlib_report_literal *rt;
@@ -706,8 +706,10 @@ static gint rlib_layout_execute_pcodes_for_line(rlib *r, struct rlib_part *part,
 		text = extra_data[i].formatted_string;
 
 		if(extra_data[i].is_memo == FALSE) {
-			if(text == NULL)
-				text = (gchar *)"";
+			if(text == NULL) {
+				text = g_malloc(1);
+				*text = 0;
+			}
 			if(extra_data[i].width == -1)
 				extra_data[i].width = r_strlen(text);
 			else {
