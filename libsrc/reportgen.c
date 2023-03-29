@@ -301,7 +301,7 @@ static gboolean rlib_layout_report(rlib *r, struct rlib_part *part, struct rlib_
 	if(report->query_code != NULL) {
 		rlib_execute_as_string(r, report->query_code, query, MAXSTRLEN);
 		for(query_i=0;query_i<r->queries_count;query_i++) {		
-			if(query != NULL && r->results[query_i]->name != NULL && !strcmp(r->results[query_i]->name, query)) {
+			if(r->results[query_i]->name != NULL && !strcmp(r->results[query_i]->name, query)) {
 				r->current_result = query_i;		
 				break;
 			}
