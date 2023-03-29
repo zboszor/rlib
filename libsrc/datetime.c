@@ -31,7 +31,7 @@
 
 
 int rlib_datetime_valid_date(struct rlib_datetime *dt) {
-	return &dt->date && g_date_valid(&dt->date);
+	return g_date_valid(&dt->date);
 }
 
 
