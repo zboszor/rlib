@@ -20,7 +20,7 @@
 ##
 ## Process this file with automake to produce Makefile.in
 
-AM_CFLAGS = $(RLIB_CFLAGS) -I${top_srcdir}/libsrc
+AM_CFLAGS = $(RLIB_CFLAGS) -I${top_srcdir}/include
 
 if HAVE_MYSQL
 MYSQL_INPUT=test1 test3

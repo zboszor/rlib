@@ -26,9 +26,9 @@
 #include <gmodule.h>
 #include <libxml/parser.h>
 
-#include "rlib.h"
-#include "pcode.h"
-#include "rlib_input.h"
+#include "rlib/rlib.h"
+#include "rlib/pcode.h"
+#include "rlib/rlib_input.h"
 
 static void rlib_image_free_pcode(rlib *r, struct rlib_report_image * ri) {
 	rlib_pcode_free(ri->value_code);

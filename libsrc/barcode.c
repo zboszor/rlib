@@ -1,5 +1,5 @@
-#include "rlib.h"
-#include "rlib_gd.h"
+#include "rlib/rlib.h"
+#include "rlib/rlib_gd.h"
 #include <string.h>
 
 #ifdef HAVE_GD

@@ -24,7 +24,7 @@
 #include <unistd.h>
 #include <glib.h>
 
-#include "rlib.h"
+#include "rlib/rlib.h"
 
 static GString *rlib_c_dump_memory_variables() {
 	GString *dump;

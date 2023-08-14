@@ -18,6 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include "config.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -28,8 +29,7 @@
 
 #include <glib.h>
 
-#include "config.h"
-#include "rlib.h"
+#include <rlib/rlib.h>
 
 void dump_part(struct rlib_part *part);
 

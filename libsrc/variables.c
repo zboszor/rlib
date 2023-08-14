@@ -26,13 +26,15 @@
  *
  */
  
+#include "config.h"
+
 #include <stdlib.h>
 #include <string.h>
-#include "config.h"
-#include "rlib.h"
-#include "pcode.h"
-#include "rlib_input.h"
-#include "rlib_langinfo.h"
+
+#include "rlib/rlib.h"
+#include "rlib/pcode.h"
+#include "rlib/rlib_input.h"
+#include "rlib/rlib_langinfo.h"
 
 void rlib_variable_clear(rlib *r, struct rlib_report_variable *rv, gboolean do_expression) {
 	if(rv->type == RLIB_REPORT_VARIABLE_EXPRESSION && do_expression) {

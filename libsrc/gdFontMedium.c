@@ -10,7 +10,7 @@
  */
 
 
-#include "gdFontMedium.h"
+#include "rlib/gdFontMedium.h"
 
 char gdFontMediumData[] = {
 /* Char 0 */

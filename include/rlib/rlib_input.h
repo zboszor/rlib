@@ -22,7 +22,7 @@
 #define _RLIB_INPUT_H_
 
 /* #include <iconv.h> */
-#include <charencoder.h> 
+#include "rlib/charencoder.h"
 
 #ifndef TRUE
 #define TRUE	1

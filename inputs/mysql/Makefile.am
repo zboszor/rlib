@@ -20,7 +20,7 @@
 ##
 ## Process this file with automake to produce Makefile.in
 
-AM_CFLAGS = $(RLIB_CFLAGS) -I${top_srcdir}/libsrc
+AM_CFLAGS = $(RLIB_CFLAGS) -I${top_srcdir}/include
 mysqlincludedir=$(includedir)/rlib
 lib_LTLIBRARIES = libr-mysql.la
 libr_mysql_la_SOURCES = mysql.c

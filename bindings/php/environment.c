@@ -22,7 +22,7 @@
 #include <php.h>
 
 #include <stdio.h>
-#include "rlib.h"
+#include "rlib/rlib.h"
 
 #if PHP_MAJOR_VERSION >= 8
 #define TSRMLS_DC

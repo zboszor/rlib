@@ -24,8 +24,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "rlib.h"
-#include "pcode.h"
+#include "rlib/rlib.h"
+#include "rlib/pcode.h"
 
 #define MAX_COL	100
 

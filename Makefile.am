@@ -29,7 +29,7 @@ DOC_DIR=doc
 endif
 
 
-SUBDIRS = rpdf libsrc inputs bindings src tests \
+SUBDIRS = include/rlib rpdf libsrc inputs bindings src tests \
 	$(DOC_DIR)
 
 pkgconfigdir = $(libdir)/pkgconfig

@@ -18,13 +18,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include "config.h"
+
 #include <stdlib.h>
 #include <string.h>
 
-#include "config.h"
-#include "rlib.h"
-#include "pcode.h"
-#include "rlib_input.h"
+#include "rlib/rlib.h"
+#include "rlib/pcode.h"
+#include "rlib/rlib_input.h"
 
 static void rlib_print_break_header_output(rlib *r, struct rlib_part *part, struct rlib_report *report, struct rlib_report_break *rb, struct rlib_element *e, gint backwards) {
 	gint blank = TRUE;

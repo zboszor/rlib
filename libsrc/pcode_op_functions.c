@@ -29,9 +29,9 @@
 #include <inttypes.h>
 #include <locale.h>
 
-#include "rlib.h"
-#include "datetime.h"
-#include "pcode.h"
+#include "rlib/rlib.h"
+#include "rlib/datetime.h"
+#include "rlib/pcode.h"
 
 const gchar * rlib_value_get_type_as_str(struct rlib_value *v) {
 	if(v == NULL)

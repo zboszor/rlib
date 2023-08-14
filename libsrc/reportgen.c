@@ -26,13 +26,15 @@
  *
  */
  
+#include "config.h"
+
 #include <stdlib.h>
 #include <string.h>
-#include "config.h"
-#include "rlib.h"
-#include "pcode.h"
-#include "rlib_input.h"
-#include "rlib_langinfo.h"
+
+#include <rlib/rlib.h>
+#include <rlib/pcode.h>
+#include <rlib/rlib_input.h>
+#include <rlib/rlib_langinfo.h>
 
 /* Not used: static struct rlib_rgb COLOR_BLACK = {0, 0, 0}; */
 

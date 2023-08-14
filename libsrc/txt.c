@@ -18,11 +18,12 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include "config.h"
+
 #include <stdlib.h>
 #include <string.h> 
 
-#include "config.h"
-#include "rlib.h"
+#include "rlib/rlib.h"
 
 #define TEXT 1
 #define DELAY 2

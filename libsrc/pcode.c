@@ -31,9 +31,9 @@
 #include <ctype.h>
 #include <inttypes.h>
 
-#include "rlib.h"
-#include "pcode.h"
-#include "rlib_langinfo.h"
+#include "rlib/rlib.h"
+#include "rlib/pcode.h"
+#include "rlib/rlib_langinfo.h"
 
 #ifndef RADIXCHAR
 #define RADIXCHAR DECIMAL_POINT

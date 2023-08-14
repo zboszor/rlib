@@ -32,7 +32,7 @@
 #endif
 #include <locale.h>
 
-#include "rlib.h"
+#include "rlib/rlib.h"
 
 #ifndef LC_MESSAGES
 #define LC_MESSAGES 5

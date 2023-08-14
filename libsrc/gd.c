@@ -26,6 +26,8 @@
  *
  */
  
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -39,9 +41,8 @@
 #endif
 #include <glib.h>
 
-#include "config.h"
-#include "rlib.h"
-#include "rlib_gd.h"
+#include "rlib/rlib.h"
+#include "rlib/rlib_gd.h"
 
 #ifdef HAVE_GD
 static char *unique_file_name(rlib *r, gchar *buf, gchar *image_directory, gint image_counter) {

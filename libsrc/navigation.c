@@ -18,12 +18,13 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include "config.h"
+
 #include <string.h>
 
-#include "config.h"
-#include "rlib.h"
-#include "pcode.h"
-#include "rlib_input.h"
+#include "rlib/rlib.h"
+#include "rlib/pcode.h"
+#include "rlib/rlib_input.h"
 
 static gint rlib_do_followers(rlib *r, gint i, gint way) {
 	gint follower;

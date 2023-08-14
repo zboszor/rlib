@@ -26,8 +26,8 @@
 #include <glib.h>
 #include <php.h>
 
-#include "rlib.h"
-#include "rlib_input.h"
+#include "rlib/rlib.h"
+#include "rlib/rlib_input.h"
 
 #if PHP_MAJOR_VERSION >= 8
 #define TSRMLS_DC

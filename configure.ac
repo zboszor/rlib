@@ -22,7 +22,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT([rlib],[2.0.21],[http://bugzilla.sicompos.com])
 AC_CANONICAL_TARGET
-AC_CONFIG_SRCDIR(libsrc/rlib.h)
+AC_CONFIG_SRCDIR(libsrc/api.c)
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR(.)
 
@@ -560,6 +560,7 @@ fi
 AC_CONFIG_FILES([
 Makefile
 rlib.pc
+include/rlib/Makefile
 rpdf/Makefile
 libsrc/Makefile
 src/Makefile

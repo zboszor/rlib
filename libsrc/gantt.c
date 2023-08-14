@@ -26,17 +26,18 @@
  *
  */
  
+#include "config.h"
+
 #include <stdlib.h>
 #include <string.h>
-#include "config.h"
 
 #include <math.h>
 
-#include "rlib.h"
-#include "pcode.h"
-#include "rlib_input.h"
-#include "util.h"
-#include "rlib_langinfo.h"
+#include "rlib/rlib.h"
+#include "rlib/pcode.h"
+#include "rlib/rlib_input.h"
+#include "rlib/util.h"
+#include "rlib/rlib_langinfo.h"
 
 #define MAX_X_TICKS 2000
 

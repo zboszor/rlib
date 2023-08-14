@@ -32,13 +32,12 @@ if test "$PHP_RLIB" != "no"; then
 	GLIB_LIBS="`$PKG_CONFIG --libs glib-2.0`"
 
 	if test "$PHP_RLIB_ALREADY_BUILT" != "no"; then
-		LIBRLIB_CFLAGS="-I../../libsrc"
 		LIBRLIB_LIBS="-lr"
 	else
 		dnl
 		dnl These below must be built before they can be used
 		dnl
-		LIBRLIB_CFLAGS="-I../../libsrc"
+		LIBRLIB_CFLAGS="-I../../include"
 		# We don't want errors telling:
 		# /usr/bin/grep: /usr/lib64/librpdf.la: No such file or directory
 		LIBRLIB_LIBS="-L${PHP_RLIB_BUILDDIR}/rpdf/.libs -L${PHP_RLIB_BUILDDIR}/libsrc/.libs -lr"

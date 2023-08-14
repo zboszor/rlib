@@ -25,7 +25,7 @@
 #include <string.h>
 #include <math.h>
 
-#include "rlib.h"
+#include "rlib/rlib.h"
 #include "rpdf.h"
 
 #define MAX_PDF_PAGES 500

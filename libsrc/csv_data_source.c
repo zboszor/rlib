@@ -33,8 +33,8 @@
 #include <glib.h>
 #include <unistd.h>
 
-#include "rlib.h"
-#include "rlib_input.h"
+#include "rlib/rlib.h"
+#include "rlib/rlib_input.h"
 
 #define INPUT_PRIVATE(input) (((struct _private *)input->private))
 

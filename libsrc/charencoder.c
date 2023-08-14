@@ -26,17 +26,18 @@
  *
  */
 
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 #include <locale.h>
-#include "config.h"
 #include <errno.h>
 
-#include "rlib.h"
-#include "rlib_input.h"
-#include "rlib_langinfo.h"
+#include "rlib/rlib.h"
+#include "rlib/rlib_input.h"
+#include "rlib/rlib_langinfo.h"
 
 GIConv rlib_charencoder_new(const gchar *to_codeset, const gchar *from_codeset) {
 	return g_iconv_open(to_codeset, from_codeset);

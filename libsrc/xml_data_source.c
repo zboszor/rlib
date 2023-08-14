@@ -24,6 +24,8 @@
  * Built in XML Input Data Source
  */
 
+#include <config.h>
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -32,9 +34,10 @@
 #include <libxml/xmlmemory.h>
 #include <libxml/xinclude.h>
 
-#include "glib.h"
-#include "rlib.h"
-#include "rlib_input.h"
+#include <glib.h>
+
+#include "rlib/rlib.h"
+#include "rlib/rlib_input.h"
 
 #define INPUT_PRIVATE(input) (((struct _private *)input->private))
 

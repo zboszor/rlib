@@ -18,6 +18,7 @@
  * Boston, MA 02111-1307, USA.
  */
  
+#include "config.h"
  
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,16 +29,13 @@
 #include <time.h>
 #include <locale.h>
 
-#include "config.h"
-
 #ifdef RLIB_HAVE_MONETARY_H 
 #include <monetary.h>
 #endif
 
-#include "rlib.h"
-#include "pcode.h"
-#include "rlib_langinfo.h"
-
+#include "rlib/rlib.h"
+#include "rlib/pcode.h"
+#include "rlib/rlib_langinfo.h"
 
 #define MAX_FORMAT_STRING 20
 

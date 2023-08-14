@@ -18,14 +18,15 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include "config.h"
+
 #include <glib.h>
 #include <time.h>
 #include <string.h>
 
-#include "config.h"
-#include "util.h"
-#include "datetime.h"
-#include "rlib.h"
+#include "rlib/util.h"
+#include "rlib/datetime.h"
+#include "rlib/rlib.h"
  
 #define RLIB_DATETIME_SECSPERDAY (60 * 60 * 24)
 

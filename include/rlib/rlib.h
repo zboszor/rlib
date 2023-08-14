@@ -26,10 +26,10 @@
 #include <time.h>
 #include <glib.h>
 
-#include "rlib_input.h"
-#include "charencoder.h"
-#include "datetime.h"
-#include "util.h"
+#include "rlib/rlib_input.h"
+#include "rlib/charencoder.h"
+#include "rlib/datetime.h"
+#include "rlib/util.h"
 
 #define RLIB_DEFUALT_FONTPOINT 	10.0
 

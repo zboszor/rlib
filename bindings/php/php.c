@@ -23,8 +23,8 @@
 
 #include <php.h>
 
-#include "rlib.h"
-#include "pcode.h"
+#include "rlib/rlib.h"
+#include "rlib/pcode.h"
 #include "rlib_php.h"
 
 #if PHP_MAJOR_VERSION >= 8

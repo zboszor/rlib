@@ -36,10 +36,10 @@
 #include <sys/stat.h>
 #include <libxml/parser.h>
 
-#include "rlib.h"
-#include "pcode.h"
-#include "rlib_input.h"
-#include "rlib_langinfo.h"
+#include "rlib/rlib.h"
+#include "rlib/pcode.h"
+#include "rlib/rlib_input.h"
+#include "rlib/rlib_langinfo.h"
 
 #ifndef CODESET
 #define CODESET _NL_CTYPE_CODESET_NAME

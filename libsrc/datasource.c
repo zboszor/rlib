@@ -19,12 +19,12 @@
  */
 
 #include <config.h>
+
 #include <string.h>
 #include <gmodule.h>
 
-#include "config.h"
-#include "rlib.h"
-#include "rlib_input.h"
+#include "rlib/rlib.h"
+#include "rlib/rlib_input.h"
 
 typedef struct {
 	union {

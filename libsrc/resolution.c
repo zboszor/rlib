@@ -25,9 +25,9 @@
 #include <ctype.h>
 
 #include <rpdf.h>
-#include "rlib.h"
-#include "pcode.h"
-#include "rlib_input.h"
+#include "rlib/rlib.h"
+#include "rlib/pcode.h"
+#include "rlib/rlib_input.h"
 
 /*
 	RLIB needs to find direct pointer to result sets and fields ahead of time so

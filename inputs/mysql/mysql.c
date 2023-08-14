@@ -24,9 +24,9 @@
 #include <mysql.h>
 #include <glib.h>
 
-#include "rlib.h"
-#include "util.h"
-#include "rlib_input.h"
+#include "rlib/rlib.h"
+#include "rlib/util.h"
+#include "rlib/rlib_input.h"
 
 #define INPUT_PRIVATE(input) (((struct _private *)input->private))
 

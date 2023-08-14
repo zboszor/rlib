@@ -22,13 +22,15 @@
  * It will eventually be RENAMED to rlib_value.
  *
  */
-#include <stdlib.h>
-#include <string.h>
-#include <value.h>
 
 #include "config.h"
-#include "util.h"
-#include "rlib.h"
+
+#include <stdlib.h>
+#include <string.h>
+
+#include "rlib/value.h"
+#include "rlib/util.h"
+#include "rlib/rlib.h"
 
 
 /*--- string functions ---*/

@@ -22,7 +22,7 @@
 
 noinst_PROGRAMS = example
 
-AM_CFLAGS = $(RLIB_CFLAGS) -I${top_srcdir}/libsrc
+AM_CFLAGS = $(RLIB_CFLAGS) -I${top_srcdir}/include
 
 example_SOURCES = example.c
 example_LDADD = $(top_builddir)/libsrc/libr.la  $(RLIB_LIBS)

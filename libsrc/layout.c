@@ -35,11 +35,11 @@
 #include <libintl.h>
 #include <locale.h>
 
-#include <rpdf.h>
-#include "rlib.h"
-#include "pcode.h"
-#include "rlib_input.h"
-#include "rlib_langinfo.h"
+#include "rpdf.h"
+#include "rlib/rlib.h"
+#include "rlib/pcode.h"
+#include "rlib/rlib_input.h"
+#include "rlib/rlib_langinfo.h"
 
 #define STATE_NONE		0
 #define STATE_BGCOLOR	1
