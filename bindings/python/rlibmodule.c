@@ -19,7 +19,7 @@
  */
 static char *rlib_interface_version="0.1.0";
 
-#include "Python.h"
+#include <Python.h>
 
 #include "rlib.h"
 #include "rlib_input.h"

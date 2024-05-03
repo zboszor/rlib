@@ -376,8 +376,8 @@ AC_ARG_ENABLE([python],
 PYTHON_CFLAGS=""
 if test x$enable_python = xyes; then
 	AM_PATH_PYTHON([2.2])
-	eval python_inc="`${PYTHON} -c "from distutils import sysconfig; print sysconfig.get_python_inc(0)" | tr '\\\\' '/' `"
-	eval python_lib="`${PYTHON} -c "from distutils import sysconfig; print sysconfig.get_config_var('BINLIBDEST')" | tr '\\\\' '/' `"
+	eval python_inc="`${PYTHON} -c "from distutils import sysconfig; print(sysconfig.get_python_inc(0))" | tr '\\\\' '/' `"
+	eval python_lib="`${PYTHON} -c "from distutils import sysconfig; print(sysconfig.get_config_var('BINLIBDEST'))" | tr '\\\\' '/' `"
 	AC_CHECK_HEADERS(python${PYTHON_VERSION}/Python.h,python_header=yes,python_header=no)
 	if test x$python_header = xyes; then
 		AC_DEFINE(HAVE_PYTHON,1,[Build with PYTHON support])
