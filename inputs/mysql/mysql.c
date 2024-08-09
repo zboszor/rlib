@@ -57,7 +57,7 @@ gpointer rlib_mysql_real_connect(input_filter *input, gchar *group, gchar *host,
 	if (mysql0 == NULL)
 		return NULL;
 
-	mysql_optionsv(mysql0, MYSQL_READ_DEFAULT_FILE, (void *)"/etc/my.cnf");
+	mysql_options(mysql0, MYSQL_READ_DEFAULT_FILE, (void *)"/etc/my.cnf");
 
 	if (group != NULL) {
 		if (mysql_options(mysql0, MYSQL_READ_DEFAULT_GROUP, group))
