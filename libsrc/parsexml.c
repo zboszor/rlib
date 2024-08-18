@@ -770,7 +770,9 @@ struct rlib_part * parse_part_file(rlib *r, int report_index) {
 	xmlNodePtr cur;
 	int found = FALSE;
 
+#if LIBXML_VERSION < 21200
 	xmlLineNumbersDefault(1);
+#endif
 
 	if(type == RLIB_REPORT_TYPE_BUFFER)
 		doc = xmlReadMemory(filename, strlen(filename), NULL, NULL, XML_PARSE_XINCLUDE);
@@ -877,7 +879,9 @@ static struct rlib_report * parse_report_file(rlib *r, int report_index, gchar *
 	xmlNodePtr cur;
 	int found = FALSE;
 
+#if LIBXML_VERSION < 21200
 	xmlLineNumbersDefault(1);
+#endif
 
 	file = get_filename(r, filename, report_index, FALSE, FALSE);
 	doc = xmlReadFile(file, NULL, XML_PARSE_XINCLUDE);

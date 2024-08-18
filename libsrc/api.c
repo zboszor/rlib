@@ -590,7 +590,9 @@ gint rlib_execute(rlib *r) {
 
 	LIBXML_TEST_VERSION
 
+#if LIBXML_VERSION < 21200
 	xmlKeepBlanksDefault(0);
+#endif
 	for(i=0;i<r->parts_count;i++) {
 		r->parts[i] = parse_part_file(r, i);
 		xmlCleanupParser();		
