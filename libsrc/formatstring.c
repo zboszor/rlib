@@ -198,10 +198,9 @@ gint rlib_number_sprintf(rlib *r, gchar **woot_dest, gchar *fmtstr, const struct
 			dest = g_string_append(dest, right_holding);
 		}
 	}
-	*woot_dest = dest->str;
-	change_radix_character(r, *woot_dest);
 	slen = dest->len;
-	g_string_free(dest, FALSE);
+	*woot_dest = g_string_free(dest, FALSE);
+	change_radix_character(r, *woot_dest);
 	return slen;
 }
 
