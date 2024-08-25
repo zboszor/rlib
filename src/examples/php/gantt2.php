@@ -134,7 +134,16 @@
 	rlib_set_output_parameter($rlib, "html_image_directory", "/tmp");
 	rlib_set_output_parameter($rlib, "trim_links", "1");
 	rlib_add_report($rlib, "gantt2.xml");
-	rlib_set_output_format_from_text($rlib, "html");
+
+	$allowable_formats = array('pdf', 'xml', 'txt', 'csv', 'html');
+
+	if (isset($argv[1]) && in_array($argv[1], $allowable_formats))
+		rlib_set_output_format_from_text($rlib, $argv[1]);
+	else if (isset($_REQUEST['format']) && in_array($_REQUEST['format'], $allowable_formats))
+		rlib_set_output_format_from_text($rlib, $_REQUEST['format']);
+	else
+		rlib_set_output_format_from_text($rlib, "html");
+
 	rlib_execute($rlib);
 	rlib_spool($rlib);
 	rlib_free($rlib);
